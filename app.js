@@ -136,7 +136,6 @@ function drawShop() {
 
 function buyOneClick(upgradeName) {
   let clickKind = upgrades.find(c => c.name == upgradeName)
-  // console.log(clickKind.cost)
   if (bank < clickKind.cost) {
     window.alert('get to clicking')
     return
