@@ -15,41 +15,44 @@
 <body class="bg-wheat">
   <header>
     <!-- SECTION header -->
-    <section class="row">
-      <div class="col-12 justify-content-center text-black">
+    <section class="row justify-content-between gx-0">
+      <div class="col-2 d-flex">
+        <h5>PRESTIGES: <span id="prestiges"></span></h5>
+      </div>
+      </h5>
+      <div class="col-3  text-black">
         <h1 class="text-center fw-4 py-2">CLICK GAME</h1>
+      </div>
+      <div class="col-2 d-flex m-0">
+        <h5 class="text-center">TOTAL # OF CLICKS: <span id="total">0</span></h5>
       </div>
     </section>
   </header>
   <main>
     <!-- SECTION clicking object -->
-    <section class="row justify-content-center my-2">
-      <div class="col-2 bg-black text-wheat text-center shadow-count m-3">
+    <section class="row justify-content-center my-2 gx-0">
+      <div class="col-2 bg-black text-wheat text-center shadow-count-counters m-3">
         <p class="my-5">CLICKS PER CLICK</p>
         <h4 id="handClicks"></h4>
       </div>
-      <div class="col-8 click-circle text-wheat text-center" onclick="clickBox('handClicks')">
-        <h1 class="my-4">CLICK HERE</h1>
+      <div class="col-8 click-circle text-wheat text-center" onclick="clickBox('handClicks')" id="click-box">
+        <h1 class="my-3">CLICK HERE</h1>
         <h1 id="click-count" class="my-3">0</h1>
       </div>
-      <div class="col-2 bg-black text-wheat text-center shadow-count m-3">
-        <p class="py-5">CLICKS PER SEC</p>
+      <div class="col-2 bg-black text-wheat text-center shadow-count-counters m-3">
+        <p class="py-5">CLICKS EVERY 3 SEC</p>
         <H4 id="autoClicks"></H4>
       </div>
     </section>
     <!-- SECTION click shop -->
-    <section class="row justify-content-evenly al">
-      <div class="row text-wheat d-flex p-2 justify-content-around mt-5 " id="upgrades">
-        <!-- <div class="col-2 text-center shadow-count" onclick="buyOneClick('oneClick')">
+    <section class="row justify-content-evenly text-wheat p-2 justify-content-around gx-0" id="upgrades">
+      <!-- <div class="col-2 text-center shadow-count" onclick="buyOneClick('oneClick')">
           <p>ADD AN EXTRA CLICK HERE</p>
           <p id="oneClick"></p>
         </div>
         <div class="col-2 text-center shadow-count" onclick="buyOneClick('fiveClick')">
           <p>ADD FIVE CLICKS</p>
           <p id='fiveClick'></p>-->
-
-      </div>
-
       <!-- <div class="col-2 text-center shadow-count">Buy here</div>
         </div> -->
     </section>

@@ -14,42 +14,60 @@ let upgrades = [
     name: 'oneClick',
     cost: 10,
     quantity: 0,
-    does: "+1 click for every click"
+    power: 1,
+    does: "adds a small #clicks for every click"
   },
   {
     name: 'fiveClick',
     cost: 45,
     quantity: 0,
-    does: "+5 clicks for every click"
+    power: 5,
+    does: "adds a bigger #clicks for every click"
 
   },
   {
     name: 'autoDoer',
     cost: 100,
     quantity: 0,
-    does: "+1 click every 3 seconds"
+    power: 3,
+    does: `adds a small #clicks every 3 seconds`
   },
   {
     name: 'easyDoer',
     cost: 1000,
     quantity: 0,
-    does: "+10 click ever 3 seconds"
-  }
+    power: 30,
+    does: "adds a bigger #click ever 3 seconds"
+  },
+  {
+    name: 'prestige',
+    cost: 100000,
+    quantity: 0,
+    power: 0,
+    does: 'prestige'
+  },
+  {
+    name: 'Mystery',
+    cost: 1000000,
+    quantity: 0,
+    power: 0,
+    does: 'MYSTERY? WHAT IS THIS'
+  },
 ]
 
-let bank = 10000
+let bank = 100000
 
 let totalClicks = 0
 
-let autostart = false
+let prestigelvl = 0
 
 function clickBox(clickKind) {
   let numClicks = clickers.find(f => f.name == clickKind)
-  bank += numClicks.clicks
+  Math.floor(bank += numClicks.clicks)
   totalClicks += numClicks.clicks
   drawBank()
+  drawTotal()
 }
-
 function autoClick() {
   clickBox("autoClicks")
 }
@@ -57,6 +75,16 @@ function update() {
   drawBank()
   drawClicks()
   drawShop()
+  drawTotal()
+  drawPrestige()
+}
+
+function drawTotal() {
+  let template = totalClicks
+  if (totalClicks <= 0) {
+    totalClicks = 0
+  }
+  document.getElementById('total').innerText = Math.floor(template)
 }
 
 function drawBank() {
@@ -64,14 +92,21 @@ function drawBank() {
   if (bank <= 0) {
     bank = 0
   }
-  document.getElementById('click-count').innerText = template
+  document.getElementById('click-count').innerText = Math.floor(template)
+}
+function drawPrestige() {
+  let template = prestigelvl
+  if (prestigelvl <= 0) {
+    prestigelvl = 0
+  }
+  document.getElementById('prestiges').innerText = template
 }
 
 function drawClicks() {
   let clickHand = clickers.find(f => f.name == 'handClicks')
   let clickAuto = clickers.find(f => f.name == 'autoClicks')
-  document.getElementById('handClicks').innerText = clickHand.clicks
-  document.getElementById('autoClicks').innerText = clickAuto.clicks
+  document.getElementById('handClicks').innerText = Math.floor(clickHand.clicks)
+  document.getElementById('autoClicks').innerText = Math.floor(clickAuto.clicks)
 }
 
 function drawShop() {
@@ -79,13 +114,15 @@ function drawShop() {
   upgrades.forEach(f => {
     if (f.quantity >= 0) {
       template += ` 
-    <div class="col-2 text-center shadow-count justify-content-center align-items-center row p-0 my-0" onclick="buyOneClick('${f.name}')">
-      <div class=" fw-3">${f.does} cost: $${f.cost} & amount: ${f.quantity}</div>
+    <div class="col-4 text-center shadow-count justify-content-center align-items-center row p-0 my-0" onclick="buyOneClick('${f.name}')">
+      <div class=" fw-3">${f.does} cost: ${Math.floor(f.cost)}  amount: ${f.quantity}</div>
     </div>`
     }
     document.getElementById('upgrades').innerHTML = template
   })
 }
+
+
 // function drawShop() {
 //   let oneCost = upgrades.find(f => f.name == 'oneClick')
 //   let fiveCost = upgrades.find(f => f.name == 'fiveClick')
@@ -104,9 +141,28 @@ function buyOneClick(upgradeName) {
     window.alert('get to clicking')
     return
   } else {
-    bank -= clickKind.cost
+    Math.floor(bank -= clickKind.cost)
     upgrade(clickKind.name),
       update()
+  }
+}
+
+function upgradePrestige() {
+  upgrades.forEach(i => {
+    if (i.quantity >= 0) {
+      i.power *= 2
+      Math.floor(i.cost *= 1.2)
+      i.quantity = 0
+    }
+  })
+}
+
+function upgradeMystery() {
+  if (confirm('are you sure')) {
+    window.close()
+  } else {
+    window.alert('good choice')
+    bank += 1000000
   }
 }
 
@@ -117,32 +173,48 @@ function upgrade(clickerName) {
   if (upgradeKind.name == 'oneClick') {
     Math.floor(upgradeKind.cost *= 1.2),
       upgradeKind.quantity++,
-      handClick.clicks += 1
+      handClick.clicks += upgradeKind.power
+    Math.floor(upgradeKind.power *= 1.1)
     update()
     return
   }
   if (upgradeKind.name == 'fiveClick') {
     Math.floor(upgradeKind.cost *= 1.2),
       upgradeKind.quantity++,
-      handClick.clicks += 5,
-      update()
+      handClick.clicks += upgradeKind.power,
+      Math.floor(upgradeKind.power *= 1.1)
+    update()
     return
   }
   if (upgradeKind.name == 'autoDoer') {
     Math.floor(upgradeKind.cost *= 1.2),
       upgradeKind.quantity++,
-      autoClick.clicks += 3,
-      autostart = true,
+      autoClick.clicks += upgradeKind.power,
+      Math.floor(upgradeKind.power *= 1.1)
+    autostart = true,
       update()
     return
   }
   if (upgradeKind.name == 'easyDoer') {
     Math.floor(upgradeKind.cost *= 1.2),
       upgradeKind.quantity++,
-      autoClick.clicks += 30,
-      autostart = true,
+      autoClick.clicks += upgradeKind.power,
+      Math.floor(upgradeKind.power *= 1.1)
+    autostart = true,
       update()
     return
+  }
+  if (upgradeKind.name == 'prestige') {
+    upgradePrestige(),
+      prestigelvl++,
+      upgradeKind.quantity = prestigelvl,
+      bank = 0
+    handClick.clicks = 2 * prestigelvl
+    autoClick.clicks = 1 * prestigelvl
+    update()
+  }
+  if (upgradeKind.name == 'Mystery') {
+    upgradeMystery()
   }
 
 }
