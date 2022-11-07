@@ -15,14 +15,14 @@ let upgrades = [
     cost: 10,
     quantity: 0,
     power: 1,
-    does: "adds a small #clicks for every click"
+    does: "clicks added for every click"
   },
   {
     name: 'fiveClick',
     cost: 45,
     quantity: 0,
     power: 5,
-    does: "adds a bigger #clicks for every click"
+    does: "clicks added for every click"
 
   },
   {
@@ -30,32 +30,32 @@ let upgrades = [
     cost: 100,
     quantity: 0,
     power: 3,
-    does: `adds a small #clicks every 3 seconds`
+    does: `clicks added for every 3 seconds`
   },
   {
     name: 'easyDoer',
     cost: 1000,
     quantity: 0,
     power: 30,
-    does: "adds a bigger #click ever 3 seconds"
+    does: "clicks added for ever 3 seconds"
   },
   {
     name: 'prestige',
     cost: 100000,
     quantity: 0,
-    power: 0,
+    power: '',
     does: 'prestige'
   },
   {
     name: 'Mystery',
     cost: 1000000,
     quantity: 0,
-    power: 0,
+    power: '',
     does: 'MYSTERY? WHAT IS THIS'
   },
 ]
 
-let bank = 100000
+let bank = 0
 
 let totalClicks = 0
 
@@ -115,7 +115,7 @@ function drawShop() {
     if (f.quantity >= 0) {
       template += ` 
     <div class="col-4 text-center shadow-count justify-content-center align-items-center row p-0 my-0" onclick="buyOneClick('${f.name}')">
-      <div class=" fw-3">${f.does} cost: ${Math.floor(f.cost)}  amount: ${f.quantity}</div>
+      <div class=" fw-3">${Math.floor(f.power)} ${f.does} cost: ${Math.floor(f.cost)}  amount: ${f.quantity}</div>
     </div>`
     }
     document.getElementById('upgrades').innerHTML = template
@@ -150,7 +150,7 @@ function upgradePrestige() {
   upgrades.forEach(i => {
     if (i.quantity >= 0) {
       i.power *= 2
-      Math.floor(i.cost *= 1.2)
+      Math.floor(i.cost *= 0.2)
       i.quantity = 0
     }
   })
@@ -208,6 +208,7 @@ function upgrade(clickerName) {
       prestigelvl++,
       upgradeKind.quantity = prestigelvl,
       bank = 0
+    upgradeKind.cost = 100000
     handClick.clicks = 2 * prestigelvl
     autoClick.clicks = 1 * prestigelvl
     update()
