@@ -84,7 +84,7 @@ function drawTotal() {
   if (totalClicks <= 0) {
     totalClicks = 0
   }
-  document.getElementById('total').innerText = Math.floor(template)
+  document.getElementById('total').innerText = Math.round(template)
 }
 
 function drawBank() {
@@ -92,7 +92,7 @@ function drawBank() {
   if (bank <= 0) {
     bank = 0
   }
-  document.getElementById('click-count').innerText = Math.floor(template)
+  document.getElementById('click-count').innerText = Math.round(template)
 }
 function drawPrestige() {
   let template = prestigelvl
@@ -115,7 +115,7 @@ function drawShop() {
     if (f.quantity >= 0) {
       template += ` 
     <div class="col-4 text-center shadow-count justify-content-center align-items-center row p-0 my-0" onclick="buyOneClick('${f.name}')">
-      <div class=" fw-3">${Math.floor(f.power)} ${f.does} cost: ${Math.floor(f.cost)}  amount: ${f.quantity}</div>
+      <div class=" fw-3">${Math.round(f.power)} ${f.does} cost: ${Math.floor(f.cost)}  amount: ${f.quantity}</div>
     </div>`
     }
     document.getElementById('upgrades').innerHTML = template
@@ -170,35 +170,35 @@ function upgrade(clickerName) {
   let handClick = clickers.find(n => n.name == 'handClicks')
   let autoClick = clickers.find(a => a.name == 'autoClicks')
   if (upgradeKind.name == 'oneClick') {
-    Math.floor(upgradeKind.cost *= 1.2),
+    Math.round(upgradeKind.cost *= 1.2),
       upgradeKind.quantity++,
       handClick.clicks += upgradeKind.power
-    Math.floor(upgradeKind.power *= 1.1)
+    Math.round(upgradeKind.power *= 1.1)
     update()
     return
   }
   if (upgradeKind.name == 'fiveClick') {
-    Math.floor(upgradeKind.cost *= 1.2),
+    Math.round(upgradeKind.cost *= 1.2),
       upgradeKind.quantity++,
       handClick.clicks += upgradeKind.power,
-      Math.floor(upgradeKind.power *= 1.1)
+      Math.round(upgradeKind.power *= 1.1)
     update()
     return
   }
   if (upgradeKind.name == 'autoDoer') {
-    Math.floor(upgradeKind.cost *= 1.2),
+    Math.round(upgradeKind.cost *= 1.2),
       upgradeKind.quantity++,
       autoClick.clicks += upgradeKind.power,
-      Math.floor(upgradeKind.power *= 1.1)
+      Math.round(upgradeKind.power *= 1.1)
     autostart = true,
       update()
     return
   }
   if (upgradeKind.name == 'easyDoer') {
-    Math.floor(upgradeKind.cost *= 1.2),
+    Math.round(upgradeKind.cost *= 1.2),
       upgradeKind.quantity++,
       autoClick.clicks += upgradeKind.power,
-      Math.floor(upgradeKind.power *= 1.1)
+      Math.round(upgradeKind.power *= 1.1)
     autostart = true,
       update()
     return
